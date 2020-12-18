@@ -1,5 +1,5 @@
 import React,  {Component} from "react";
-import { BrowserRouter as Router,Route,Switch } from "react-router-dom";
+import { BrowserRouter as Router,Route, Switch } from "react-router-dom";
 
 class TodoApp extends Component{
     render(){
@@ -10,12 +10,12 @@ class TodoApp extends Component{
                 <Router>
                     <>  
                         {/*switch make sure that only one of these routes is active at any particular point in time.*/}
-                        <switch>
+                        <Switch>
                             <Route path="/" exact component={WelcomeComponent}/>
-                            <Route path="/welcome" component={WelcomeComponent}/>
+                            <Route path="/welcome/:name" component={WelcomeComponent}/>
                             <Route path="/login" component={LoginComponent}/>
-                            <Route path="" component={ErrorComponent}/>
-                        </switch>
+                            <Route component={ErrorComponent}/>
+                        </Switch>
                     </>
                 </Router>
               { /* <WelcomeComponent/>
@@ -37,7 +37,7 @@ class WelcomeComponent extends Component{
     render(){
         return(
             <div>
-                Welcome to Todo 
+                Welcome {this.props.match.params.name}
             </div>
         )
     }
@@ -76,7 +76,7 @@ class LoginComponent extends Component{
 
     loginClicked(){
         if(this.state.username==='wael' && this.state.password==="1234"){
-            this.props.history.push("/welcome")
+            this.props.history.push(`/welcome/${this.state.username}`)
             //this.setState({showSucssMess:true})
             //this.setState({hasloFailed:false})
 
