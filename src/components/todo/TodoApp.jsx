@@ -1,5 +1,5 @@
 import React,  {Component} from "react";
-import { BrowserRouter as Router,Route } from "react-router-dom";
+import { BrowserRouter as Router,Route,Switch } from "react-router-dom";
 
 class TodoApp extends Component{
     render(){
@@ -8,10 +8,14 @@ class TodoApp extends Component{
 
                 {/*implementing Routing for the login and welcome components*/}
                 <Router>
-                    <>
-                        <Route path="/" exact component={WelcomeComponent}/>
-                        <Route path="/welcome" component={WelcomeComponent}/>
-                        <Route path="/login" component={LoginComponent}/>
+                    <>  
+                        {/*switch make sure that only one of these routes is active at any particular point in time.*/}
+                        <switch>
+                            <Route path="/" exact component={WelcomeComponent}/>
+                            <Route path="/welcome" component={WelcomeComponent}/>
+                            <Route path="/login" component={LoginComponent}/>
+                            <Route path="" component={ErrorComponent}/>
+                        </switch>
                     </>
                 </Router>
               { /* <WelcomeComponent/>
@@ -23,6 +27,12 @@ class TodoApp extends Component{
         );
     }
 }
+
+function ErrorComponent() {
+    return <div>An error is Ouccured. I don't now what to do</div>    
+}
+
+
 class WelcomeComponent extends Component{
     render(){
         return(
@@ -49,6 +59,7 @@ class LoginComponent extends Component{
         this.loginClicked=this.loginClicked.bind(this);
     }
 
+   
     // Added a generic event to handle all changes for any text element and we are now able to update the state whenever somebody types in something.
 
     handelChange(event){
