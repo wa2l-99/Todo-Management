@@ -8,6 +8,11 @@ class AuthService {
     logout(){
         sessionStorage.removeItem('authenticatedUser')
     }
+    isUserLoggedIn(){
+        let user=sessionStorage.getItem('authenticatedUser');
+        if(user===null) return false
+        return true
+    }
 
 
 }
