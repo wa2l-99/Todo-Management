@@ -1,5 +1,6 @@
 import React,  {Component} from "react";
 import { BrowserRouter as Router,Route, Switch, Link} from "react-router-dom";
+import AuthService from './AuthService' ;
 
 class TodoApp extends Component{
     render(){
@@ -98,7 +99,7 @@ class HeaderComponent extends Component{
                     </ul>
                     <ul className="navbar-nav navbar-collapse justify-content-end ">
                         <li ><Link className="nav-link" to="/login">LogIn</Link></li>
-                        <li ><Link className="nav-link" to="/logout">LogOut</Link></li>
+                        <li ><Link className="nav-link" to="/logout" onClick={AuthService.logout}>LogOut</Link></li>
                     </ul>
                 </nav>
             </header>
@@ -175,6 +176,7 @@ class LoginComponent extends Component{
 
     loginClicked(){
         if(this.state.username==='wael' && this.state.password==="1234"){
+            AuthService.registerSuccessfulLogin(this.state.username,this.state.password);
             this.props.history.push(`/welcome/${this.state.username}`)
             //this.setState({showSucssMess:true})
             //this.setState({hasloFailed:false})
