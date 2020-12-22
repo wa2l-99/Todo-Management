@@ -17,8 +17,9 @@ class TodoApp extends Component{
                             <Route path="/welcome/:name" component={WelcomeComponent}/>
                             <Route path="/login" component={LoginComponent}/>
                             <Route path="/todos" component={ListTodosComponent}/>
+                            <Route path="/logout" component={LogoutComponent}/>
                             <Route component={ErrorComponent}/>
-                        </Switch>
+                        </Switch>    
                     </>
                     <FooterComponent/>
                 </Router>
@@ -55,10 +56,11 @@ class ListTodosComponent extends Component{
         return(
             <div>
                 <h1>List Todos</h1>
-                <table>
+                <div classname="container">
+                <table class="table">
                     <thead>
                         <tr>
-                            <th>id</th>
+                         
                             <th>description</th>
                             <th>done</th>
                             <th>targetDate</th>
@@ -79,6 +81,7 @@ class ListTodosComponent extends Component{
                          }
                     </tbody>
                 </table>
+                </div>
             </div>
         )
     }
@@ -105,21 +108,39 @@ class HeaderComponent extends Component{
 class FooterComponent extends Component{
     render(){
         return(
+            <footer className="footer">
+                <span className="text-muted">The key is in not spending time, but in investing it</span>
+
+            </footer>
+            
+        )
+    }
+}
+class LogoutComponent extends Component{
+    render(){
+        return(
             <div>
-              <hr/> Footer 
+            <h1> You are logged out </h1>
+            <div className="container" >Thank you for Using Our Application </div>
             </div>
         )
     }
 }
 class WelcomeComponent extends Component{
     render(){
+
         return(
-            <div>
+           <> 
+           <h1>Welcome</h1>
+           <div class="container">
+      
                 Welcome {this.props.match.params.name}. You Can Manage your todos <Link to='/todos'>here </Link>
             </div>
+            </>
         )
     }
 }
+
 // the LoginComponent a controlled component.
 class LoginComponent extends Component{
     constructor(props){
@@ -177,14 +198,17 @@ class LoginComponent extends Component{
     render(){
       return(
           <div>
+              <h1>Login</h1>
+              <div className="container">
                 {/*<ShowInvalidInserts hasloFailed={this.state.hasloFailed} />*/}
-                {this.state.hasloFailed && <div>Invalid Insertes</div>}
+                {this.state.hasloFailed && <div className="alert alert-warning"> Invalid Insertes</div>}
                 {this.state.showSucssMess && <div>Login Succefuly</div>}
                 {/*<ShowLoginSucc showSucssMess={this.state.showSucssMess} />*/}
                 User Name: <input type="text" name="username" value={this.state.username} onChange={this.handelChange}/>
                 Password: <input type="password" name="password" value={this.state.password} onChange={this.handelChange}/>
-                <button onClick={this.loginClicked}>Login</button>
+                <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
             </div>
+        </div>    
         );
     }
   }
