@@ -1,6 +1,7 @@
 import React,  {Component} from "react";
 import { BrowserRouter as Router,Route, Switch, Link} from "react-router-dom";
 import AuthService from './AuthService' ;
+import AuthenticatedRoute from './AuthenticatedRoute';
 
 class TodoApp extends Component{
     render(){
@@ -15,10 +16,10 @@ class TodoApp extends Component{
                         {/*switch make sure that only one of these routes is active at any particular point in time.*/}
                         <Switch>
                             <Route path="/" exact component={LoginComponent}/>
-                            <Route path="/welcome/:name" component={WelcomeComponent}/>
+                            <AuthenticatedRoute path="/welcome/:name" component={WelcomeComponent}/>
                             <Route path="/login" component={LoginComponent}/>
-                            <Route path="/todos" component={ListTodosComponent}/>
-                            <Route path="/logout" component={LogoutComponent}/>
+                            <AuthenticatedRoute path="/todos" component={ListTodosComponent}/>
+                            <AuthenticatedRoute path="/logout" component={LogoutComponent}/>
                             <Route component={ErrorComponent}/>
                         </Switch>    
                     </>
@@ -71,8 +72,9 @@ class ListTodosComponent extends Component{
                         {
                             this.state.todos.map(
                             todo =>
-                                <tr>
-                                    <td>{todo.id}</td>
+                            //to say that every child have unique key (id )
+                                <tr key={todo.id}>
+                                    
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
@@ -89,17 +91,22 @@ class ListTodosComponent extends Component{
 }
 class HeaderComponent extends Component{
     render(){
+        //create bolean variable : true if the user is connected 
+        const isUserLoggedIN = AuthService.isUserLoggedIn();
+        //console.log(isUserLoggedIN);
+
         return(
             <header>
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark">
                     <div><a className="navbar-brand">Todo</a></div>
                     <ul className="navbar-nav">
-                        <li ><Link className="nav-link" to="/welcome/name">Home</Link></li>
-                        <li ><Link className="nav-link" to="/todos">Todos</Link></li>
+                        {/*this links can be showed only if the user is connected */}
+                        {isUserLoggedIN && <li ><Link className="nav-link" to="/welcome/name">Home</Link></li>}
+                        {isUserLoggedIN && <li ><Link className="nav-link" to="/todos">Todos</Link></li>}
                     </ul>
                     <ul className="navbar-nav navbar-collapse justify-content-end ">
                         <li ><Link className="nav-link" to="/login">LogIn</Link></li>
-                        <li ><Link className="nav-link" to="/logout" onClick={AuthService.logout}>LogOut</Link></li>
+                        {isUserLoggedIN && <li ><Link className="nav-link" to="/logout" onClick={AuthService.logout}>LogOut</Link></li>}
                     </ul>
                 </nav>
             </header>
