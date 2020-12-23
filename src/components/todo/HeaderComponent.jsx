@@ -2,6 +2,7 @@ import React , {Component} from 'react';
 import {Route, Redirect} from 'react-router-dom';
 import {Link} from "react-router-dom";
 import AuthService from './AuthService';
+import { withRouter } from 'react-router';
 
 class HeaderComponent extends Component{
     render(){
@@ -19,7 +20,7 @@ class HeaderComponent extends Component{
                         {isUserLoggedIN && <li ><Link className="nav-link" to="/todos">Todos</Link></li>}
                     </ul>
                     <ul className="navbar-nav navbar-collapse justify-content-end ">
-                        <li ><Link className="nav-link" to="/login">LogIn</Link></li>
+                        {!isUserLoggedIN &&<li ><Link className="nav-link" to="/login">LogIn</Link></li>}
                         {isUserLoggedIN && <li ><Link className="nav-link" to="/logout" onClick={AuthService.logout}>LogOut</Link></li>}
                     </ul>
                 </nav>
@@ -27,4 +28,4 @@ class HeaderComponent extends Component{
         )
     }
 }
-export default HeaderComponent;
+export default withRouter(HeaderComponent);
