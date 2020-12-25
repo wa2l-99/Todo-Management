@@ -1,5 +1,4 @@
 import React , {Component} from 'react';
-import AuthService from './AuthService';
 class FooterComponent extends Component{
     render(){
         return(

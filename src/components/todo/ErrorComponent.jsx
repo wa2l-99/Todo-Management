@@ -1,4 +1,4 @@
-import React , {Component} from 'react';
+import React  from 'react';
 function ErrorComponent() {
     return <div>An error is Ouccured. I don't now what to do</div>    
 }

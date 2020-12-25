@@ -1,5 +1,4 @@
 import React , {Component} from 'react';
-import {Route, Redirect} from 'react-router-dom';
 import {Link} from "react-router-dom";
 import AuthService from './AuthService';
 import { withRouter } from 'react-router';
@@ -13,7 +12,7 @@ class HeaderComponent extends Component{
         return(
             <header>
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark">
-                    <div><a className="navbar-brand">Todo</a></div>
+                    <div><Link className="navbar-brand">Todo</Link></div>
                     <ul className="navbar-nav">
                         {/*this links can be showed only if the user is connected */}
                         {isUserLoggedIN && <li ><Link className="nav-link" to="/welcome/name">Home</Link></li>}
