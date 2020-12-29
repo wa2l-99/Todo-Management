@@ -8,9 +8,11 @@ class ListTodosComponent extends Component{
         console.log('constructor')
         super(props)
         this.state={
-            todos : []
+            todos : [], 
+            message : null
         }
-    
+        this.DeleteTodoClicked = this.DeleteTodoClicked.bind(this)
+        this.refreshTodos = this.refreshTodos.bind(this)
 
     }
     // life cycle method in react 
@@ -30,14 +32,33 @@ class ListTodosComponent extends Component{
 
     // Third thing the componentDidMountmethod is called ( we call the service and the state is updated ) after that react called the render method again 
     componentDidMount(){
-        let username =AuthService.getLoggedInUserName;
+        this.refreshTodos();
+        console.log(this.state)
+      
+    }
+    refreshTodos(){
+        let username =AuthService.getLoggedInUserName()
         TodoDataServive.retrieveAllTodos(username)
                 .then(
             response => {
-               this.setState({todos : response.data })
-               
+               this.setState({todos : response.data });
+               this.refreshTodos()
+
             }
         )
+
+    }
+
+    DeleteTodoClicked(id){
+        let username =AuthService.getLoggedInUserName()
+        TodoDataServive.deleteTode(username, id)
+        .then(
+            response => {
+                this.setState({message : `Delete of todo ${id} Successful`})
+            }
+        )
+
+
     }
     // Second thing the render is called using the  intial state in the const and it loads on the screen  
     render(){
@@ -45,6 +66,7 @@ class ListTodosComponent extends Component{
         return(
             <div> 
                 <h1>List Todos</h1>
+                {this.state.message && <div className="alert alert-success">{this.state.message}</div>}
                 <div classname="container">
                 <table class="table">
                     <thead>
@@ -53,6 +75,7 @@ class ListTodosComponent extends Component{
                             <th>description</th>
                             <th>done</th>
                             <th>targetDate</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,6 +88,7 @@ class ListTodosComponent extends Component{
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
+                                    <td><button className="btn btn-warning" onClick={() => this.DeleteTodoClicked(todo.id)}>Delete</button></td>
 
                                 </tr>
                             )
