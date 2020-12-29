@@ -13,6 +13,7 @@ class ListTodosComponent extends Component{
         }
         this.DeleteTodoClicked = this.DeleteTodoClicked.bind(this)
         this.refreshTodos = this.refreshTodos.bind(this)
+        this.updateTodoClicked=this.updateTodoClicked.bind(this)
 
     }
     // life cycle method in react 
@@ -60,7 +61,20 @@ class ListTodosComponent extends Component{
 
 
     }
-    // Second thing the render is called using the  intial state in the const and it loads on the screen  
+    updateTodoClicked(id){
+        console.log('update' + id)
+        this.props.history.push(`/todos/${id}`)
+        //let username =AuthService.getLoggedInUserName()
+        //TodoDataServive.deleteTode(username, id)
+        //.then(
+            //response => {
+                //this.setState({message : `Delete of todo ${id} Successful`})
+            //}
+        //)
+
+
+    }
+    // Second thing the render called using the  intial state in the const and it loads on the screen  
     render(){
         console.log('render')
         return(
@@ -75,6 +89,7 @@ class ListTodosComponent extends Component{
                             <th>description</th>
                             <th>done</th>
                             <th>targetDate</th>
+                            <th>Update</th>
                             <th>Delete</th>
                         </tr>
                     </thead>
@@ -88,6 +103,7 @@ class ListTodosComponent extends Component{
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
+                                    <td><button className="btn btn-success" onClick={() => this.updateTodoClicked(todo.id)}>Update</button></td>
                                     <td><button className="btn btn-warning" onClick={() => this.DeleteTodoClicked(todo.id)}>Delete</button></td>
 
                                 </tr>
