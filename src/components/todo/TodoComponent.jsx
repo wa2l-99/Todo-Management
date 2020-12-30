@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import moment from 'moment'
-import {ErrorMessage, Form, Formik} from 'formik';
+import {ErrorMessage, Form, Formik,Field} from 'formik';
 
 class TodoComponent extends Component {
     constructor(props){
@@ -19,14 +19,15 @@ class TodoComponent extends Component {
         let errors ={}
             if(!values.description){
                 errors.description = 'Enter a decription'
-            }else if(values.description.lenght<5){
+
+            } else if(values.description.length<5){
                 errors.description = 'Enter enter at least 5 chartacters in Decription'
 
             }
 
-            if(moment(values.targetDate).isValid())[
+            if( !moment(values.targetDate).isValid()){
                 errors.targetDate = 'Enter a valid TargetDate'
-            ]
+            }
         
         return errors
 
@@ -52,16 +53,14 @@ class TodoComponent extends Component {
                             {
                                 (props) =>(
                                     <Form>
-                                        <ErrorMessage name="descriprion" component="div" className="alert alert-warning"/>
+                                        <ErrorMessage name="description" component="div" className="alert alert-warning"/>
                                         <ErrorMessage name="targetDate" component="div" className="alert alert-warning"/>
                                         <fieldset className="form-group">
                                             <label>Description</label>
-                                            <input></input>
                                             <Field className="form-control" type="text" name="description"/>
                                         </fieldset>
                                         <fieldset className="form-group">
-                                            <label></label>
-                                            <input></input>
+                                            <label>Target Date</label>
                                             <Field className="form-control" type="date" name="targetDate"/>
                                         </fieldset>
                                         <button className="btn btn-success" type="submit">Save</button>

@@ -12,8 +12,8 @@ class ListTodosComponent extends Component{
             message : null
         }
         this.DeleteTodoClicked = this.DeleteTodoClicked.bind(this)
-        this.refreshTodos = this.refreshTodos.bind(this)
         this.updateTodoClicked=this.updateTodoClicked.bind(this)
+        this.refreshTodos = this.refreshTodos.bind(this)
 
     }
     // life cycle method in react 
