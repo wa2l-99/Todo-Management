@@ -1,6 +1,8 @@
 import React , {Component} from 'react';
 import TodoDataServive from '../../api/todo/TodoDataService'
 import AuthService from './AuthService'
+import moment from 'moment'
+
 class ListTodosComponent extends Component{
     // Life cycle of the react
     // the first thing called 
@@ -53,14 +55,13 @@ class ListTodosComponent extends Component{
     DeleteTodoClicked(id){
         let username =AuthService.getLoggedInUserName()
         TodoDataServive.deleteTode(username, id)
-        .then(
+              .then(
             response => {
                 this.setState({message : `Delete of todo ${id} Successful`})
             }
         )
-
-
     }
+    
     updateTodoClicked(id){
         console.log('update' + id)
         this.props.history.push(`/todos/${id}`)
@@ -102,7 +103,7 @@ class ListTodosComponent extends Component{
                                     
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
-                                    <td>{todo.targetDate.toString()}</td>
+                                    <td>{moment(todo.targetDate).format('YYYY-MM-DD')}</td>
                                     <td><button className="btn btn-success" onClick={() => this.updateTodoClicked(todo.id)}>Update</button></td>
                                     <td><button className="btn btn-warning" onClick={() => this.DeleteTodoClicked(todo.id)}>Delete</button></td>
 
