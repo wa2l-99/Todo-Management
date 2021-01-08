@@ -1,34 +1,61 @@
-import React , {Component} from 'react';
-import {Link} from "react-router-dom";
-class WelcomeComponent extends Component{
-    
-    constructor(props){
+import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
+import HelloWorldService from '../../api/todo/HelloWordService.js'
+
+class WelcomeComponent extends Component {
+
+    constructor(props) {
         super(props)
-        this.retrieveWelcomeMessage = this.retrieveWelcomeMessage(this);
-        
+        this.retrieveWelcomeMessage = this.retrieveWelcomeMessage.bind(this)
+        this.state = {
+            welcomeMessage: ''
+        }
+        this.handleSuccessfulResponse = this.handleSuccessfulResponse.bind(this)
+        this.handleError = this.handleError.bind(this)
     }
 
-    render(){
-        
+    render() {
+        return (
+            <>
+                <h1>Welcome!</h1>
+                <div className="container">
+                    Welcome {this.props.match.params.name}.
+                    You can manage your todos <Link to="/todos">here</Link>.
+                </div>
+                <div className="container">
+                    Click here to get a customized welcome message.
+                    <button onClick={this.retrieveWelcomeMessage}
+                        className="button button1">Get Welcome Message</button>
+                </div>
+                <div className="container">
+                   <h2>{this.state.welcomeMessage}</h2> 
+                </div>
 
-        return(
-           <> 
-           <h1>Welcome</h1>
-           <div class="container">
-      
-                Welcome {this.props.match.params.name}. You Can Manage your todos <Link to='/todos'>here </Link>
-            </div>
-            <div class="container">
-                Click here to get a customized welcome message.
-                <button onClick={this.retrieveWelcomeMessage} className='btn btn-success'>Get Welcome Message</button>
-            </div>
             </>
-            
-            
         )
     }
-    retrieveWelcomeMessage(){
-        console.log('retrive clicked');
+    retrieveWelcomeMessage() {
+        // HelloWorldService.executeHelloWorldService()
+        // .then( response => this.handleSuccessfulResponse(response) )
+        // HelloWorldService.executeHelloWorldBeanService()
+        // .then( response => this.handleSuccessfulResponse(response) )
+        HelloWorldService.executeHelloWorldPathVariableService(this.props.match.params.name)
+            .then(response => this.handleSuccessfulResponse(response))
+            .catch(error => this.handleError(error))
+    }
+    handleSuccessfulResponse(response) {
+        console.log(response)
+        this.setState({ welcomeMessage: response.data.message })
+    }
+    handleError(error) {
+        console.log(error.response)
+        let errorMessage = '';
+        if (error.message)
+            errorMessage += error.message
+        if (error.response && error.response.data) {
+            errorMessage += error.response.data.message
+        }
+        this.setState({ welcomeMessage: errorMessage })
     }
 }
-export default WelcomeComponent; 
+export default WelcomeComponent

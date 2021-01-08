@@ -1,5 +1,10 @@
 import React , {Component} from 'react';
 import AuthService from './AuthService';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/RaisedButton';
+
+
 
 class LoginComponent extends Component{
     constructor(props){
@@ -33,23 +38,38 @@ class LoginComponent extends Component{
     }
 
     loginClicked(){
-        if(this.state.username==='wael' && this.state.password==="1234"){
-            AuthService.registerSuccessfulLogin(this.state.username,this.state.password);
-            this.props.history.push(`/welcome/${this.state.username}`)
+     //   if(this.state.username==='wael' && this.state.password==="1234"){
+       //     AuthService.registerSuccessfulLogin(this.state.username,this.state.password);
+         //   this.props.history.push(`/welcome/${this.state.username}`)
             //this.setState({showSucssMess:true})
             //this.setState({hasloFailed:false})
 
-        }
+      //  }
             
-        else{
-            console.log('Failed') 
+     //   else{
+          //  console.log('Failed') 
 
+           // this.setState({showSucssMess:false})
+
+           // this.setState({hasloFailed:true})
+
+       // }
+
+        AuthService
+        .executeBasicAuthenticationService(this.state.username,this.state.password)
+        .then(()=>{
+            AuthService.registerSuccessfulLogin(this.state.username,this.state.password);
+            this.props.history.push(`/welcome/${this.state.username}`);
+
+        }).catch(()=>{
             this.setState({showSucssMess:false})
 
             this.setState({hasloFailed:true})
 
         }
+            
 
+        )
         //console.log(this.state)
 
     }
@@ -57,19 +77,32 @@ class LoginComponent extends Component{
 
     render(){
       return(
-          <div>
-              <h1>Login</h1>
-              <div className="container">
-                {/*<ShowInvalidInserts hasloFailed={this.state.hasloFailed} />*/}
-                {this.state.hasloFailed && <div className="alert alert-warning"> Invalid Insertes</div>}
-                {this.state.showSucssMess && <div>Login Succefuly</div>}
-                {/*<ShowLoginSucc showSucssMess={this.state.showSucssMess} />*/}
-                User Name: <input type="text" name="username" value={this.state.username} onChange={this.handelChange}/>
-                Password: <input type="password" name="password" value={this.state.password} onChange={this.handelChange}/>
-                <button className="btn btn-success" onClick={this.loginClicked}>Login</button>
-            </div>
-        </div>    
+        <MuiThemeProvider>
+        <h1>Login ! </h1>  
+           <React.Fragment>
+               <TextField hintText="Enter Your FirstName"
+               floatingLabelText="User Name: " 
+               name="username" value={this.state.username} onChange={this.handelChange}/>
+               <br/>
+               <TextField hintText="Enter Your password"
+               floatingLabelText="Password"
+               type="password"
+               name="password" value={this.state.password} onChange={this.handelChange}/>
+               <br/>
+               <Button
+               label="Login"
+               primary={true}
+               style={Styles.button}
+               onClick={this.loginClicked}/> 
+           </React.Fragment>
+
+       </MuiThemeProvider>
         );
     }
   }
+  const Styles ={
+    button:{
+        margin: 15
+    }
+}
 export default  LoginComponent ; 
