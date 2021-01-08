@@ -87,14 +87,15 @@ class TodoComponent extends Component {
                                         <ErrorMessage name="targetDate" component="div" className="alert alert-warning"/>
                                         <fieldset className="form-group">
                                             <label>Description</label>
-                                            <Field className="form-control" type="text" name="description"/>
+                                            <Field className="form-control" type="text" name="description" placeholder="Add you'r Todo Here"/>
                                         </fieldset>
                                         <fieldset className="form-group">
                                             <label>Target Date</label>
                                             <Field className="form-control" type="date" name="targetDate"/>
                                         </fieldset>
-                                        <button className="btn btn-success" type="submit">Save</button>
+                                        <button className="button button1" type="submit">Save</button>
                                     </Form>
+
                                 )
                             }
                         </Formik>
